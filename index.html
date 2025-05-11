@@ -23,14 +23,14 @@
     }
 
     .container {
-      max-width: 1000px;
+      max-width: 1100px;
       margin: auto;
       padding: 1rem;
     }
 
     .products {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 1rem;
       margin-top: 2rem;
     }
@@ -53,11 +53,16 @@
       font-size: 1.1rem;
     }
 
+    .product p.desc {
+      font-size: 0.9rem;
+      color: #666;
+    }
+
     .form-section {
       margin-top: 3rem;
     }
 
-    form input, form textarea, form button {
+    form input {
       width: 100%;
       padding: 0.75rem;
       margin-bottom: 1rem;
@@ -70,7 +75,9 @@
       background-color: #25D366;
       color: white;
       border: none;
+      padding: 0.75rem 1.5rem;
       cursor: pointer;
+      border-radius: 5px;
     }
 
     footer {
@@ -78,6 +85,35 @@
       text-align: center;
       padding: 1rem;
       margin-top: 3rem;
+    }
+
+    .pagination {
+      margin-top: 2rem;
+      text-align: center;
+    }
+
+    .pagination button {
+      margin: 0 0.5rem;
+      padding: 0.5rem 1rem;
+      border: none;
+      background: #eee;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .pagination button.active {
+      background: #d147a3;
+      color: white;
+    }
+
+    .random-btn {
+      margin-top: 1rem;
+      display: block;
+      text-align: center;
+    }
+
+    .random-btn button {
+      background-color: #ff9900;
     }
   </style>
 </head>
@@ -91,9 +127,11 @@
 <div class="container">
   <section id="products">
     <h2>Produk Terlaris</h2>
-    <div class="products" id="product-list">
-      <!-- Products will be loaded here -->
+    <div class="random-btn">
+      <button onclick="shuffleProducts()">Acak Produk</button>
     </div>
+    <div class="products" id="product-list"></div>
+    <div class="pagination" id="pagination"></div>
   </section>
 
   <section class="form-section">
@@ -101,7 +139,8 @@
     <form id="whatsapp-form">
       <input type="text" id="name" placeholder="Nama Anda" required />
       <input type="tel" id="phone" placeholder="Nomor WhatsApp (misal: 6285712345678)" required />
-      <textarea id="message" rows="4" placeholder="Pesan atau pertanyaan..."></textarea>
+      <input type="text" id="alamat" placeholder="Alamat Lengkap" required />
+      <input type="email" id="email" placeholder="Email Anda" required />
       <button type="submit">Kirim ke WhatsApp</button>
     </form>
   </section>
@@ -114,40 +153,124 @@
 <!-- JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js "></script>
 <script>
+  let allProducts = [];
+  let currentPage = 1;
+  const productsPerPage = 10;
+
   // Load CSV and display products
   Papa.parse("https://bandardeterjen.github.io/product/belanja/daftarproduk.csv ", {
     download: true,
     header: true,
     skipEmptyLines: true,
     complete: function(results) {
-      const products = results.data.slice(0, 6); // Limit to 6 products
-      const productList = document.getElementById("product-list");
-
-      products.forEach(product => {
-        const div = document.createElement("div");
-        div.className = "product";
-        div.innerHTML = `
-          <img src="${product.image}" alt="${product.name}" />
-          <h3>${product.name}</h3>
-          <p>Rp${parseFloat(product.price).toLocaleString()}</p>
-        `;
-        div.addEventListener("click", () => {
-          window.location.href = "https://bandarreseler.blogspot.com ";
-        });
-        productList.appendChild(div);
-      });
+      allProducts = results.data;
+      showPage(currentPage);
     }
   });
+
+  function showPage(page) {
+    const start = (page - 1) * productsPerPage;
+    const end = start + productsPerPage;
+    const productsToShow = allProducts.slice(start, end);
+
+    const productList = document.getElementById("product-list");
+    productList.innerHTML = "";
+
+    if (productsToShow.length === 0) {
+      productList.innerHTML = "<p>Tidak ada produk ditemukan.</p>";
+      return;
+    }
+
+    productsToShow.forEach(product => {
+      const div = document.createElement("div");
+      div.className = "product";
+      div.innerHTML = `
+        <img src="${product.image}" alt="${product.title}" />
+        <h3>${product.title}</h3>
+        <p>Rp${parseFloat(product.price).toLocaleString()}</p>
+        <p class="desc">${product.description}</p>
+      `;
+      div.addEventListener("click", () => {
+        window.location.href = "https://bandarreseller.blogspot.com ";
+      });
+      productList.appendChild(div);
+    });
+
+    renderPagination();
+  }
+
+  function renderPagination() {
+    const totalPages = Math.ceil(allProducts.length / productsPerPage);
+    const paginationDiv = document.getElementById("pagination");
+    paginationDiv.innerHTML = "";
+
+    if (totalPages <= 1) return;
+
+    const maxVisiblePages = 3;
+    let startPage = Math.max(1, currentPage - 1);
+    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+    if (endPage - startPage + 1 < maxVisiblePages) {
+      startPage = Math.max(1, endPage - maxVisiblePages + 1);
+    }
+
+    if (startPage > 1) {
+      const prevBtn = document.createElement("button");
+      prevBtn.textContent = "Prev";
+      prevBtn.onclick = () => {
+        if (currentPage > 1) {
+          currentPage--;
+          showPage(currentPage);
+        }
+      };
+      paginationDiv.appendChild(prevBtn);
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      const btn = document.createElement("button");
+      btn.textContent = i;
+      if (i === currentPage) btn.classList.add("active");
+      btn.onclick = () => {
+        currentPage = i;
+        showPage(currentPage);
+      };
+      paginationDiv.appendChild(btn);
+    }
+
+    if (endPage < totalPages) {
+      const nextBtn = document.createElement("button");
+      nextBtn.textContent = "Next";
+      nextBtn.onclick = () => {
+        if (currentPage < totalPages) {
+          currentPage++;
+          showPage(currentPage);
+        }
+      };
+      paginationDiv.appendChild(nextBtn);
+    }
+  }
+
+  function shuffleProducts() {
+    const shuffled = [...allProducts].sort(() => 0.5 - Math.random());
+    allProducts = shuffled;
+    currentPage = 1;
+    showPage(currentPage);
+  }
 
   // WhatsApp Form Submission
   document.getElementById("whatsapp-form").addEventListener("submit", function(e) {
     e.preventDefault();
 
-    const phone = document.getElementById("phone").value.trim();
     const name = document.getElementById("name").value.trim();
-    const message = document.getElementById("message").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const alamat = document.getElementById("alamat").value.trim();
+    const email = document.getElementById("email").value.trim();
 
-    const whatsappURL = `https://wa.me/6285773009666?text=Halo%2C+saya+ ${encodeURIComponent(name)}%0ANomor+WA:+${encodeURIComponent(phone)}%0APesan:%0A${encodeURIComponent(message)}`;
+    const defaultMessage = "Saya ingin menjadi Reseller Bandar";
+
+    const message = `Halo,\n\nSaya ingin menjadi Reseller Bandar.\n\nNama: ${name}\nNo. WA: ${phone}\nAlamat: ${alamat}\nEmail: ${email}\n\nPesan: ${defaultMessage}`;
+
+    const whatsappURL = `https://wa.me/6285773009666?text= ${encodeURIComponent(message)}`;
     
     window.open(whatsappURL, "_blank");
   });
