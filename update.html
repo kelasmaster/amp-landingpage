@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Perfume & Detergent Reseller</title>
+  <meta name="description" content="Jual produk parfum dan deterjen berkualitas untuk reseller di Indonesia. Harga grosir menarik!">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap " rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #fff;
+      color: #333;
+    }
+
+    header {
+      background-color: #d147a3;
+      color: white;
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 1rem;
+    }
+
+    .intro-copy, .closing-copy {
+      text-align: center;
+      max-width: 800px;
+      margin: 2rem auto;
+      line-height: 1.6;
+      font-size: 1.1rem;
+    }
+
+    .benefits {
+      list-style: none;
+      padding: 0;
+      margin-top: 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .benefits li {
+      background: #f9f9f9;
+      border: 1px solid #eee;
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      min-width: 200px;
+      max-width: 250px;
+      text-align: center;
+      font-weight: 500;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .product {
+      border: 1px solid #ddd;
+      padding: 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .product img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .product h3 {
+      margin: 0.5rem 0;
+      font-size: 1.1rem;
+    }
+
+    .product p.desc {
+      font-size: 0.9rem;
+      color: #666;
+      min-height: 48px;
+    }
+
+    .product .view-btn {
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 0.5rem;
+    }
+
+    .form-section {
+      margin-top: 3rem;
+    }
+
+    form input {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    form button {
+      background-color: #25D366;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    footer {
+      background: #f5f5f5;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 3rem;
+    }
+
+    .pagination {
+      margin-top: 2rem;
+      text-align: center;
+    }
+
+    .pagination button {
+      margin: 0 0.5rem;
+      padding: 0.5rem 1rem;
+      border: none;
+      background: #eee;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .pagination button.active {
+      background: #d147a3;
+      color: white;
+    }
+
+    .random-btn {
+      margin-top: 1rem;
+      text-align: center;
+    }
+
+    .random-btn button {
+      background-color: #ff9900;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Jadi Reseller Parfum & Deterjen Sekarang!</h1>
+  <p>Dapatkan produk terbaik dengan harga grosir untuk bisnis Anda.</p>
+</header>
+
+<!-- Introduction Copy -->
+<div class="intro-copy">
+  <p><strong>Ingin memulai bisnis tanpa harus repot stok dan kirim barang?</strong> Reseller Partner membuka peluang usaha bagi Anda yang ingin menjadi reseller produk sabun dan parfum dengan sistem yang praktis dan menguntungkan.</p>
+
+  <p>Kini, Anda berkesempatan mendapatkan website eksklusif yang sudah memiliki katalog produk siap jual. Cukup promosikan di media sosial atau unggah di marketplace seperti Facebook, TikTok, Tokopedia, dan Shopee, dan nikmati komisi menarik mulai dari 10 persen tanpa perlu menyimpan barang atau mengurus pengiriman.</p>
+
+  <h3>Mengapa Bergabung dengan Reseller Partner?</h3>
+  <ul class="benefits">
+    <li>✅ Tanpa stok barang & tanpa kirim barang – Fokus hanya pada promosi dan penjualan</li>
+    <li>✅ Dapatkan komisi mulai dari 10 persen – Semakin banyak penjualan, semakin besar keuntungan</li>
+    <li>✅ Website GRATIS untuk 10 pendaftar pertama – Langsung siap digunakan tanpa biaya tambahan</li>
+    <li>✅ Nomor WhatsApp pribadi di website – Pelanggan bisa langsung checkout ke nomor Anda</li>
+  </ul>
+</div>
+
+<div class="container">
+  <section id="products">
+    <h2>Produk Terlaris</h2>
+    <div class="random-btn">
+      <button onclick="shuffleProducts()">Acak Produk</button>
+    </div>
+    <div class="products" id="product-list"></div>
+    <div class="pagination" id="pagination"></div>
+  </section>
+
+  <!-- Closing Copy -->
+  <div class="closing-copy">
+    <p><strong>Dengan bergabung di Reseller Partner,</strong> Anda bisa langsung memulai bisnis tanpa modal besar, tanpa stok barang, dan tanpa ribet. Kesempatan terbatas hanya untuk 10 pendaftar pertama yang akan mendapatkan website GRATIS plus fitur checkout langsung ke nomor WhatsApp Anda!</p>
+
+    <p><strong>Ambil peluang ini sekarang dan mulai bisnis reseller dengan cara yang lebih cerdas dan menguntungkan.</strong></p>
+  </div>
+
+  <section class="form-section">
+    <h2>Kontak Kami</h2>
+    <form id="whatsapp-form">
+      <input type="text" id="name" placeholder="Nama Anda" required />
+      <input type="tel" id="phone" placeholder="Nomor WhatsApp (misal: 6285712345678)" required />
+      <input type="text" id="alamat" placeholder="Alamat Lengkap" required />
+      <input type="email" id="email" placeholder="Email Anda" required />
+      <button type="submit">Kirim ke WhatsApp</button>
+    </form>
+  </section>
+</div>
+
+<footer>
+  <p>&copy; 2025 Perfume & Detergent Reseller | Powered by BandarReseler</p>
+</footer>
+
+<!-- JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js "></script>
+<script>
+  let allProducts = [];
+  let currentPage = 1;
+  const productsPerPage = 6;
+
+  // Load CSV and display products
+  Papa.parse("https://bandardeterjen.github.io/product/belanja/daftarproduk.csv ", {
+    download: true,
+    header: true,
+    skipEmptyLines: true,
+    complete: function(results) {
+      allProducts = results.data;
+      showPage(currentPage);
+    }
+  });
+
+  function showPage(page) {
+    const start = (page - 1) * productsPerPage;
+    const end = start + productsPerPage;
+    const productsToShow = allProducts.slice(start, end);
+
+    const productList = document.getElementById("product-list");
+    productList.innerHTML = "";
+
+    if (productsToShow.length === 0) {
+      productList.innerHTML = "<p>Tidak ada produk ditemukan.</p>";
+      return;
+    }
+
+    productsToShow.forEach(product => {
+      let description = product.description || '';
+      let descriptionSubstring = description.substring(0, 200);
+      if (description.length > 200) descriptionSubstring += '...';
+
+      const div = document.createElement("div");
+      div.className = "product";
+      div.innerHTML = `
+        <img src="${product.image}" alt="${product.title}" />
+        <h3>${product.title}</h3>
+        <p>Rp${parseFloat(product.price).toLocaleString()}</p>
+        <p class="desc">${descriptionSubstring}</p>
+        <button class="view-btn" onclick="event.stopPropagation(); window.location.href='https://bandarreseller.blogspot.com '">Lihat Produk</button>
+      `;
+      div.addEventListener("click", () => {
+        window.location.href = "https://bandarreseller.blogspot.com ";
+      });
+      productList.appendChild(div);
+    });
+
+    renderPagination();
+  }
+
+  function renderPagination() {
+    const totalPages = Math.ceil(allProducts.length / productsPerPage);
+    const paginationDiv = document.getElementById("pagination");
+    paginationDiv.innerHTML = "";
+
+    if (totalPages <= 1) return;
+
+    const maxVisiblePages = 3;
+    let startPage = Math.max(1, currentPage - 1);
+    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+    if (endPage - startPage + 1 < maxVisiblePages) {
+      startPage = Math.max(1, endPage - maxVisiblePages + 1);
+    }
+
+    if (startPage > 1) {
+      const prevBtn = document.createElement("button");
+      prevBtn.textContent = "Prev";
+      prevBtn.onclick = () => {
+        if (currentPage > 1) {
+          currentPage--;
+          showPage(currentPage);
+        }
+      };
+      paginationDiv.appendChild(prevBtn);
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      const btn = document.createElement("button");
+      btn.textContent = i;
+      if (i === currentPage) btn.classList.add("active");
+      btn.onclick = () => {
+        currentPage = i;
+        showPage(currentPage);
+      };
+      paginationDiv.appendChild(btn);
+    }
+
+    if (endPage < totalPages) {
+      const nextBtn = document.createElement("button");
+      nextBtn.textContent = "Next";
+      nextBtn.onclick = () => {
+        if (currentPage < totalPages) {
+          currentPage++;
+          showPage(currentPage);
+        }
+      };
+      paginationDiv.appendChild(nextBtn);
+    }
+  }
+
+  function shuffleProducts() {
+    const shuffled = [...allProducts].sort(() => 0.5 - Math.random());
+    allProducts = shuffled;
+    currentPage = 1;
+    showPage(currentPage);
+  }
+
+  // WhatsApp Form Submission
+  document.getElementById("whatsapp-form").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const name = document.getElementById("name").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const alamat = document.getElementById("alamat").value.trim();
+    const email = document.getElementById("email").value.trim();
+
+    const defaultMessage = "Saya ingin menjadi Reseller Bandar";
+
+    const message = `Halo,perkenalkan saya...\n\nNama: ${name}\nNo. WA: ${phone}\nAlamat: ${alamat}\nEmail: ${email}\n\nPesan: ${defaultMessage}`;
+
+    const whatsappURL = `https://wa.me/6285773009666?text= ${encodeURIComponent(message)}`;
+    
+    window.open(whatsappURL, "_blank");
+  });
+</script>
+
+</body>
+</html>
