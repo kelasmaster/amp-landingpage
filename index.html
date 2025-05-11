@@ -155,7 +155,7 @@
 <script>
   let allProducts = [];
   let currentPage = 1;
-  const productsPerPage = 10;
+  const productsPerPage = 6;
 
   // Load CSV and display products
   Papa.parse("https://bandardeterjen.github.io/product/belanja/daftarproduk.csv ", {
@@ -268,7 +268,7 @@
 
     const defaultMessage = "Saya ingin menjadi Reseller Bandar";
 
-    const message = `Halo,\n\nSaya ingin menjadi Reseller Bandar.\n\nNama: ${name}\nNo. WA: ${phone}\nAlamat: ${alamat}\nEmail: ${email}\n\nPesan: ${defaultMessage}`;
+    const message = `Halo, perkenalkan saya\n\nNama: ${name}\nNo. WA: ${phone}\nAlamat: ${alamat}\nEmail: ${email}\n\nPesan: ${defaultMessage}`;
 
     const whatsappURL = `https://wa.me/6285773009666?text= ${encodeURIComponent(message)}`;
     
